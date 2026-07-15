@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Contribution Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="form-body">
+
+<div class="form-container">
+
+    <h1>Make a Donation</h1>
+    <p class="subtitle">Every contribution directly funds resource logistics</p>
+
+    <form action="confirm.html" method="GET">
+
+        <div class="input-group">
+            <label>Your Full Name</label>
+            <input type="text" name="username" placeholder="e.g. John Doe" required>
+        </div>
+
+        <div class="input-group">
+            <label>Email ID</label>
+            <input type="email" name="email" placeholder="name@example.com" required>
+        </div>
+
+        <div class="input-group">
+            <label>Amount to Send (₹)</label>
+            <input type="number" name="amount" min="1" placeholder="Enter amount" required>
+        </div>
+
+        <div class="qr-section">
+            <p><strong>Scan QR via any UPI App</strong></p>
+            <!-- Make sure you place your own QR or placeholder here -->
+            <img src="images/qr.png" alt="Payment QR" class="qr-img">
+        </div>
+
+        <button type="submit" class="btn-donate" onclick="return validateSubmission()">
+            Confirm Contribution
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+function validateSubmission() {
+    let fundingAmount = document.getElementsByName("amount")[0].value;
+
+    if (!fundingAmount || fundingAmount <= 0) {
+        alert("Please provide a valid contribution value.");
+        return false;
+    }
+
+    alert("Verification Alert: Click OK once your mobile UPI transfer completes.");
+    return true;
+}
+</script>
+
+</body>
+</html>

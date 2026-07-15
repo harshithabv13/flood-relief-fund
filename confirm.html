@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contribution Confirmed</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="success-body">
+
+<div class="success-box">
+
+    <h1>✨ Contribution Received!</h1>
+
+    <p class="success-text">
+        Thank you, <strong id="donorName"></strong>! <br><br>
+        Your donation of <strong>₹<span id="donatedSum"></span></strong> has been logged. <br>
+        These funds are immediately processed to acquire field packages.
+    </p>
+
+    <div style="margin: 20px 0; font-weight: bold; color: #006266;">
+        Total Campaign Funding: ₹<span id="grandTotal">0</span>
+    </div>
+
+    <p style="text-align: left; margin-bottom: 5px; font-size: 14px; color: #57606f;">Recent Backers:</p>
+    <ul id="donorList"></ul>
+
+    <a href="index.html" class="back-btn">Return to Home</a>
+
+</div>
+
+<script>
+// Parse the incoming URL values
+const urlArgs = new URLSearchParams(window.location.search);
+const UserGivenName = urlArgs.get("username") || "Anonymous";
+const UserGivenAmount = parseInt(urlArgs.get("amount")) || 0;
+
+// Render visual targets
+document.getElementById("donorName").textContent = UserGivenName;
+document.getElementById("donatedSum").textContent = UserGivenAmount;
+
+// Manage localStorage under an alternate key title to preserve independence
+let trackerHistory = JSON.parse(localStorage.getItem("flood_relief_history")) || [];
+
+if (UserGivenAmount > 0) {
+    trackerHistory.push({
+        backer: UserGivenName,
+        value: UserGivenAmount
+    });
+    localStorage.setItem("flood_relief_history", JSON.stringify(trackerHistory));
+}
+
+// Compute total
+let cumulativeSum = 0;
+let listContainer = document.getElementById("donorList");
+
+trackerHistory.forEach(item => {
+    cumulativeSum += item.value;
+    
+    let listElement = document.createElement("li");
+    listElement.innerHTML = `<strong>${item.backer}</strong> allocated ₹${item.value}`;
+    listContainer.appendChild(listElement);
+});
+
+document.getElementById("grandTotal").textContent = cumulativeSum;
+</script>
+
+</body>
+</html>
